@@ -59,7 +59,7 @@ public class FullScreenViewActivity extends Activity {
         }*/
 
         viewPager.setAdapter(adapter);
-
+        viewPager.setCurrentItem(position);
     }
 
     static class TouchImageAdapter extends PagerAdapter {

@@ -17,6 +17,6 @@ public class AppConstant {
     public static final String PHOTO_ALBUM = "ScreenCapture";
 
     // supported file formats
-    public static final List<String> FILE_EXTN = Arrays.asList("jpg", "jpeg", "png");
+    public static final List<String> FILE_EXTN = Arrays.asList("jpg", "jpeg", "png", "jpgevg", "jpegevg", "pngevg");
     public static final String HIDE_FILE_EXTN = ".evg";
 }

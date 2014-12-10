@@ -8,17 +8,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.*;
 import com.pereverzev.encryptedimage.app.constants.AppConstant;
 import com.pereverzev.encryptedimage.app.exceptions.DirectoryPassIsNotValid;
 import com.pereverzev.encryptedimage.app.exceptions.EmptyDirectoryException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Александр on 02.11.2014.
@@ -70,10 +71,6 @@ public class GridViewActivity extends Activity {
 
         // setting grid view adapter
         gridView.setAdapter(adapter);
-
-        btnGetImage = (Button)findViewById(R.id.btnGetImage);
-
-        btnGetImage.setOnClickListener(btnGetImageOnClickListener());
     }
 
     private void InitilizeGridLayout() {
@@ -90,17 +87,6 @@ public class GridViewActivity extends Activity {
                 (int) padding);
         gridView.setHorizontalSpacing((int) padding);
         gridView.setVerticalSpacing((int) padding);
-    }
-
-    private View.OnClickListener btnGetImageOnClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent imageGallery = new Intent(Intent.ACTION_PICK);
-                imageGallery.setType("image/*");
-                startActivityForResult(imageGallery, REQUEST);
-            }
-        };
     }
 
     @Override
