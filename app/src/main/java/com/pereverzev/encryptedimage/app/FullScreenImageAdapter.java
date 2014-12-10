@@ -53,7 +53,6 @@ public class FullScreenImageAdapter extends PagerAdapter  {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container,
                     false);
-        if(viewMode == 0) {
             imgDisplay = (TouchImageView) viewLayout.findViewById(R.id.imgDisplay);
             btnClose = (Button) viewLayout.findViewById(R.id.btnClose);
 
@@ -72,7 +71,6 @@ public class FullScreenImageAdapter extends PagerAdapter  {
 
             ((ViewPager) container).addView(viewLayout);
              viewMode = 1;
-        }
             return viewLayout;
     }
 
