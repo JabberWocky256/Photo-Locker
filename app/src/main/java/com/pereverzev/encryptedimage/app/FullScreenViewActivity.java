@@ -62,60 +62,10 @@ public class FullScreenViewActivity extends Activity {
         viewPager.setCurrentItem(position);
     }
 
-    static class TouchImageAdapter extends PagerAdapter {
-
-        private Activity activity;
-        private static List<String> images ;
-        private LayoutInflater inflater;
-
-        public TouchImageAdapter(Activity activity, List<String> images) {
-            this.activity = activity;
-            this.images = images;
-        }
-
-        @Override
-        public int getCount() {
-            return images.size();
-        }
-
-        @Override
-        public View instantiateItem(ViewGroup container, int position) {
-            TouchImageView imageView = new TouchImageView(container.getContext());
-            Button btnClose;
-            inflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container,
-                    false);
-
-            imageView = (TouchImageView) viewLayout.findViewById(R.id.imgDisplay);
-            btnClose = (Button) viewLayout.findViewById(R.id.btnClose);
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(images.get(position), options);
-
-            imageView.setImageBitmap(bitmap);
-            btnClose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    activity.finish();
-                }
-            });
-
-            container.addView(imageView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            return imageView;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
 

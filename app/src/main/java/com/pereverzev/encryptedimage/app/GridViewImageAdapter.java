@@ -1,12 +1,15 @@
 package com.pereverzev.encryptedimage.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +31,14 @@ import java.util.ArrayList;
  * Created by Александр on 02.11.2014.
  */
 public class GridViewImageAdapter extends BaseAdapter {
+    private GridViewActivity gridViewActivity;
     private Activity _activity;
     private ArrayList<String> _filePaths = new ArrayList<String>();
     private int imageWidth;
 
-    public GridViewImageAdapter(Activity activity, ArrayList<String> filePaths,
+    public GridViewImageAdapter(GridViewActivity grid, Activity activity, ArrayList<String> filePaths,
                                 int imageWidth) {
+        this.gridViewActivity = grid;
         this._activity = activity;
         this._filePaths = filePaths;
         this.imageWidth = imageWidth;
@@ -54,6 +59,7 @@ public class GridViewImageAdapter extends BaseAdapter {
         return position;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
@@ -80,21 +86,14 @@ public class GridViewImageAdapter extends BaseAdapter {
                 .cacheOnDisc()
                 .build();
 
+        if(_filePaths.get(position).substring(_filePaths.get(position).length()-3, _filePaths.get(position).length()).equals("evg")){
+            imageView.setBackgroundColor(Color.BLUE);
+            imageView.setPadding(5,5,5,5);
+        }
+
         imageLoader.displayImage("file:///" + _filePaths.get(position), imageView, options);
 
-/*
 
-        Image img = new Image(_filePaths.get(position));
-
-
-        Bitmap image = img.getIcon(100, 100);
-
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new GridView.LayoutParams(imageWidth,
-                imageWidth));
-        imageView.setImageBitmap(image);*/
-
-        // image view click listener
         imageView.setOnClickListener(new OnImageClickListener(position));
 
         imageView.setOnLongClickListener(new OnImageLongClickListener(position));
@@ -133,23 +132,24 @@ public class GridViewImageAdapter extends BaseAdapter {
 
         @Override
         public boolean onLongClick(View v) {
-            final String path = _filePaths.get(_postion);
+            String path = _filePaths.get(_postion);
             final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(_activity);
 
             DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(path.substring(path.length()-3, path.length()).equals("evg")) {
-                        File file = new File(path);
-                        File file2 = new File(path.substring(0, path.length()-3));
+                    if(_filePaths.get(_postion).substring(_filePaths.get(_postion).length() - 3, _filePaths.get(_postion).length()).equals("evg")) {
+                        File file = new File(_filePaths.get(_postion));
+                        File file2 = new File(_filePaths.get(_postion).substring(0, _filePaths.get(_postion).length() - 3));
                         file.renameTo(file2);
                     } else {
-                        File file = new File(path);
-                        File file2 = new File(path + "evg");
+                        File file = new File(_filePaths.get(_postion));
+                        File file2 = new File(_filePaths.get(_postion) + "evg");
                         file.renameTo(file2);
                     }
 
-                    _activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+                    gridViewActivity.setAdapter();
+                    _activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
                 }
             };
 

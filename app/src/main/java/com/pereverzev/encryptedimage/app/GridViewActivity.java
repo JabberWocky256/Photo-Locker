@@ -12,6 +12,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.pereverzev.encryptedimage.app.constants.AppConstant;
@@ -48,6 +50,29 @@ public class GridViewActivity extends Activity {
         // Initilizing Grid View
         InitilizeGridLayout();
 
+
+
+       setAdapter();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item = menu.add ("Change password");
+        item.setOnMenuItemClickListener (new MenuItem.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick (MenuItem item){
+                changePass();
+                return true;
+            }
+        });
+        return true;
+    }
+
+    private void changePass(){
+        Intent registr = new Intent(GridViewActivity.this, Registr.class);
+        startActivity(registr);
+    }
+
+    public void setAdapter(){
         // loading all image paths from SD card
         try {
             imagePaths = utils.getFilePaths();
@@ -65,9 +90,8 @@ public class GridViewActivity extends Activity {
         }
 
         // Gridview adapter
-        adapter = new GridViewImageAdapter(GridViewActivity.this, imagePaths,
+        adapter = new GridViewImageAdapter(this, GridViewActivity.this, imagePaths,
                 columnWidth);
-
         // setting grid view adapter
         gridView.setAdapter(adapter);
     }

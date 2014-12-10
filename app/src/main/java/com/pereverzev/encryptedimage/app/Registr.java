@@ -57,6 +57,8 @@ public class Registr extends Activity {
 
                     Intent grid = new Intent(Registr.this, GridViewActivity.class);
                     startActivity(grid);
+
+                    finish();
                 }
             }
         });
