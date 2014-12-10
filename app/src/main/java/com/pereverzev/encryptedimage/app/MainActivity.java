@@ -43,13 +43,14 @@ public class MainActivity extends Activity {
         @Override
         protected void onPreExecute() {
             password.setInputType(InputType.TYPE_CLASS_TEXT);
+            password.setSelection(password.length());
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -58,7 +59,8 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            password.setSelection(password.length());
         }
     }
 }
