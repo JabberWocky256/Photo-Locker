@@ -39,6 +39,8 @@ public class FullScreenViewActivity extends Activity {
         utils = new Utils();
 
         Intent i = getIntent();
+        int position = i.getIntExtra("position", 0);
+
         try {
             adapter = new FullScreenImageAdapter(FullScreenViewActivity.this,
                     utils.getFilePaths());
@@ -57,7 +59,7 @@ public class FullScreenViewActivity extends Activity {
         }*/
 
         viewPager.setAdapter(adapter);
-
+        viewPager.setCurrentItem(position);
     }
 
     static class TouchImageAdapter extends PagerAdapter {

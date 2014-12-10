@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pereverzev.encryptedimage.app.constants.AppConstant;
 
 import java.io.*;
@@ -82,6 +83,9 @@ public class Image {
     }
 
     public Bitmap getIcon(int WIDTH, int HIGHT) {
+
+
+
         BitmapFactory.Options o = null;
         final int REQUIRED_WIDTH = WIDTH;
         final int REQUIRED_HIGHT = HIGHT;

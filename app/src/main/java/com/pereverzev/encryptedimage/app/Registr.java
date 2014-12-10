@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Александр on 10.12.2014.
+ * Created by opereverzyev on 10.12.14.
  */
-public class MainActivity extends Activity {
-
+public class Registr extends Activity {
     public static final String PREFS_NAME = "AUTHORISATION";
     public static final String PREF_PASSWORD = "password";
     private EditText password ;
@@ -27,9 +25,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_locker);
-
-        hasThePass();
+        setContentView(R.layout.activity_registr);
 
         password = (EditText) findViewById(R.id.editTextPass);
         eye = (ImageView) findViewById(R.id.eye);
@@ -46,33 +42,28 @@ public class MainActivity extends Activity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences loginPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-                String pass = (String) loginPreferences.getAll().get(PREF_PASSWORD);
-
-                if(password.getText().toString().equals(pass.trim())){
-                    Intent gallery = new Intent(MainActivity.this, GridViewActivity.class);
-                    startActivity(gallery);
-                    finish();
-                } else {
+                if(password.getText().toString().length()<3){
                     ShowWrangMessage showWrangMessage = new ShowWrangMessage();
                     showWrangMessage.execute();
+                } else {
+                    SharedPreferences loginPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+                    SharedPreferences.Editor loginPreferencesEditor = loginPreferences.edit();
+                    loginPreferencesEditor.clear();
+                    loginPreferencesEditor.apply();
+
+                    loginPreferencesEditor.putString(PREF_PASSWORD, password.getText().toString());
+                    loginPreferencesEditor.apply();
+
+                    Intent grid = new Intent(Registr.this, GridViewActivity.class);
+                    startActivity(grid);
                 }
             }
         });
 
     }
 
-    private void hasThePass(){
-        SharedPreferences loginPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String pass = (String) loginPreferences.getAll().get(PREF_PASSWORD);
-
-        if(pass == null){
-            Intent registr = new Intent(MainActivity.this, Registr.class);
-            startActivity(registr);
-        }
-    }
-
-    private class ShowPassword extends AsyncTask<Void, Void, Void>{
+    private class ShowPassword extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -102,7 +93,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            ((TextView)findViewById(R.id.txtNotCorrect)).setText("WRANG. TRY AGAIN!");
+            ((TextView)findViewById(R.id.txtNotCorrect)).setText("Bad login");
         }
 
         @Override
