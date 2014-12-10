@@ -1,9 +1,11 @@
 package com.pereverzev.encryptedimage.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -40,6 +42,7 @@ public class Registr extends Activity {
         });
 
         btnOk.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.GINGERBREAD)
             @Override
             public void onClick(View v) {
                 if(password.getText().toString().length()<3){

@@ -18,14 +18,14 @@ import java.util.Locale;
  * Created by Александр on 02.11.2014.
  */
 public class Utils {
+    private ArrayList<String> filePaths;
 
     // Reading file paths from SDCard
     public ArrayList<String> getFilePaths() throws EmptyDirectoryException, DirectoryPassIsNotValid {
-        ArrayList<String> filePaths = new ArrayList<String>();
+        filePaths = new ArrayList<String>();
 
         File directory = new File(
-                android.os.Environment.getExternalStorageDirectory()
-                        + File.separator + AppConstant.PHOTO_ALBUM);
+                android.os.Environment.getExternalStorageDirectory() + "");
 
         /*File directory = new File("mnt/sdcard/EncryptedImage");*/
 
@@ -42,7 +42,6 @@ public class Utils {
 
     // getting list of file paths
     private  ArrayList<String> getFilesList(File directory) throws EmptyDirectoryException {
-        ArrayList<String> filePaths = new ArrayList<String>();
         File[] listFiles = directory.listFiles();
 
         // Check for count
@@ -58,10 +57,10 @@ public class Utils {
                     // Add image path to array list
                     filePaths.add(filePath);
                 }
+                if(new File(filePath).isDirectory()){
+                    getFilesList(new File(filePath));
+                }
             }
-        } else {
-            // image directory is empty
-            throw new EmptyDirectoryException("image directory is empty");
         }
 
         return filePaths;
