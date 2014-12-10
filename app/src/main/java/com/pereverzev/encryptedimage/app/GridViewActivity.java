@@ -32,7 +32,6 @@ public class GridViewActivity extends Activity {
     private GridView gridView;
     private int columnWidth;
 
-    private Button btnGetImage;
     private static final int REQUEST = 1;
     private String imagePath = "";
     private Image image;
